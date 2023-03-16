@@ -11,12 +11,14 @@ const currentTime = document.getElementById('current-time');
 const duration = document.getElementById('duration');
 const volume = document.getElementById('volume');
 const volumeBar = document.getElementById('volume-bar');
+const ul = document.querySelector('ul');
 
 const player = new MusicPlayer(musicList);
 
 window.addEventListener("load", () =>{
     let music = player.getMusic();
     displayMusic(music);
+    displayMusicList(player.musicList);
 });
 
 const displayMusic = (music) =>{
@@ -108,3 +110,23 @@ volume.addEventListener('click', () =>{
         volumeBar.value = 100;
     }
 });
+
+const displayMusicList = (list) =>{
+    for(let i = 0; i < list.length; i++){
+        let liTag = `
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span> ${list[i].getName()}</span>
+                <span id="music-${i}" class="badge bg-primary rounded-pill"></span>
+                <audio class="music-${i}" src="mp3/${list[i].file}"></audio> 
+            </li>
+        `;
+        ul.insertAdjacentHTML("beforeend", liTag);
+
+        let liAudioDuration = ul.querySelector(`#music-${i}`);
+        let liAudioTag = ul.querySelector(`.music-${i}`);
+
+        liAudioTag.addEventListener("loadeddata", () =>{
+            liAudioDuration.innerText = calculateTime(liAudioTag.duration);
+        });
+    }
+}
