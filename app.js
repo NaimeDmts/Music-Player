@@ -9,6 +9,8 @@ const next = document.getElementById('next');
 const progressBar = document.getElementById('progress-bar');
 const currentTime = document.getElementById('current-time');
 const duration = document.getElementById('duration');
+const volume = document.getElementById('volume');
+const volumeBar = document.getElementById('volume-bar');
 
 const player = new MusicPlayer(musicList);
 
@@ -78,4 +80,31 @@ audio.addEventListener('timeupdate', () =>{
 progressBar.addEventListener('input', () =>{
     currentTime.textContent = calculateTime(progressBar.value);
     audio.currentTime = progressBar.value;
-})
+});
+
+let muteStatus = "muted";
+
+volumeBar.addEventListener('input', (e)=>{
+    const value = e.target.value;
+    audio.volume = value / 100;
+    if(value == 0){
+        volume.classList ="fa-solid fa-volume-xmark";
+    }
+    else{
+        volume.classList = "fa-solid fa-volume-high";
+    }
+});
+
+volume.addEventListener('click', () =>{
+    if(muteStatus === "muted"){
+        audio.muted= true;
+        muteStatus = "unmuted";
+        volume.classList ="fa-solid fa-volume-xmark";
+        volumeBar.value = 0;
+    }else{
+        audio.muted= false;
+        muteStatus = "muted";
+        volume.classList = "fa-solid fa-volume-high";
+        volumeBar.value = 100;
+    }
+});
