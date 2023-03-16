@@ -17,7 +17,7 @@ window.addEventListener("load", () =>{
     displayMusic(music);
 });
 
-function displayMusic(music){
+const displayMusic = (music) =>{
     title.innerText = music.getName();
     singer.innerText = music.singer;
     image.src = "img/" + music.img;
@@ -29,34 +29,31 @@ play.addEventListener('click', () =>{
     isMusicPlay ? pauseMusic() : playMusic();
 });
 
-prev.addEventListener("click", () =>{
-    prevMusic();
-});
-function prevMusic(){
+prev.addEventListener("click", () =>{ prevMusic(); });
+
+const prevMusic = () =>{
     player.previous();
     let music = player.getMusic();
     displayMusic(music);
     playMusic();
-
 }
 
-next.addEventListener("click", () =>{
-    nextMusic();
+next.addEventListener("click", () =>{ nextMusic(); });
+
+const nextMusic = () =>{
+    player.next();
     let music = player.getMusic();
     displayMusic(music);
     playMusic();
-});
-function nextMusic(){
-    player.next();
 }
 
-function pauseMusic(){
+const pauseMusic = () => {
     container.classList.remove("playing");
     play.classList = "fa-solid fa-play";
     audio.pause();
 }
 
-function playMusic(){
+const playMusic = () =>{
     container.classList.add("playing");
     play.classList = "fa-solid fa-pause";
     audio.play();
@@ -75,5 +72,10 @@ audio.addEventListener('loadedmetadata', () =>{
 });
 audio.addEventListener('timeupdate', () =>{
     progressBar.value = Math.floor(audio.currentTime);
-    currentTime.textContent =calculateTime(progressBar.value);
+    currentTime.textContent = calculateTime(progressBar.value);
 });
+
+progressBar.addEventListener('input', () =>{
+    currentTime.textContent = calculateTime(progressBar.value);
+    audio.currentTime = progressBar.value;
+})
