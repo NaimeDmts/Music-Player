@@ -20,7 +20,6 @@ function displayMusic(music){
     image.src = "img/" + music.img;
     audio.src = "mp3/" + music.file;
 }
-
 play.addEventListener('click', () =>{
 
     const isMusicPlay = container.classList.contains("playing");
@@ -56,3 +55,4 @@ function playMusic(){
     play.classList = "fa-solid fa-pause";
     audio.play();
 }
+
